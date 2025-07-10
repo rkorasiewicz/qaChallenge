@@ -19,6 +19,10 @@ export class E2eSolutionPage {
     return this.headingInCardsBlock.innerText();
   }
 
+  /**
+   * 
+   * @param index 
+   */
   async clickFinancialServicesBox(index: number) {
     await this.financialServicesBoxes.nth(index).click();
   }
@@ -31,6 +35,10 @@ export class E2eSolutionPage {
     await this.financeAndEsgButton.click();
   }
 
+  /**
+   * 
+   * @param linkText 
+   */
   async clickLinkByText(linkText: string) {
     await this.page.getByRole('link', { name: linkText }).click();
   }

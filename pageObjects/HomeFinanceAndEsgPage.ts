@@ -9,6 +9,11 @@ export class HomeFinanceAndEsgPage {
     this.breadcrumbMenu = page.getByRole('menu');
   }
 
+  /**
+   * 
+   * @param index 
+   * @returns 
+   */
   getFinancialServicesEndpoint(index: number) {
     const financialServicesEndpoints = ['/banking', '/insurance', '/finance-esg'];
     return financialServicesEndpoints[index];
