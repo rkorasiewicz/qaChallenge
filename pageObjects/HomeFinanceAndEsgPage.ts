@@ -1,25 +1,25 @@
-import {Page} from '@playwright/test'
+import { Page, Locator } from '@playwright/test';
+
 export class HomeFinanceAndEsgPage {
+  readonly page: Page;
+  readonly breadcrumbMenu: Locator;
 
-    readonly page: Page
-    
-    constructor(page: Page){
-        this.page = page
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.breadcrumbMenu = page.getByRole('menu');
+  }
 
-    /**
-     * 
-     * @param index - index of the financial services endpoint to return
-     * @returns 
-     */
-    getFinancialServicesEndpoint(index: number): string{
-        const financialServicesEndpoints: string[] = ['/banking', '/insurance', '/finance-esg' ]
-        return financialServicesEndpoints[index]
-    }
+  getFinancialServicesEndpoint(index: number) {
+    const financialServicesEndpoints = ['/banking', '/insurance', '/finance-esg'];
+    return financialServicesEndpoints[index];
+  }
 
-    async getBreadcrumbTextValue(){
-        const breadcrumbRow = this.page.getByRole('menu')
-        const breadcrumbText = await breadcrumbRow.textContent()
-        return breadcrumbText
-    }
+  async getBreadcrumbTextValue() {
+    return this.breadcrumbMenu.textContent();
+  }
+
+  async verifyUserIsOnEsgKpiEnginePage() {
+    await this.page.waitForURL(/\/finance-esg\/esg-kpi-engine\//);
+    await this.page.getByRole('heading', { name: 'Master ESG KPI management' }).isVisible();
+  }
 }

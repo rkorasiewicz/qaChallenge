@@ -1,37 +1,43 @@
-import {Page} from '@playwright/test'
+import { Page, Locator } from '@playwright/test';
+
 export class E2eSolutionPage {
+  readonly page: Page;
+  readonly productsMenu: Locator;
+  readonly financeAndEsgButton: Locator;
+  readonly financialServicesBoxes: Locator;
+  readonly headingInCardsBlock: Locator;
 
-    readonly page: Page
-    
-    constructor(page: Page){
-        this.page = page
-    }
-    
-     async headerText() {
-        return await this.page.locator('.cards-block').getByRole("heading", {level: 2}).innerText()
-    }
-
-    /**
-     * 
-     * @param index - index of the financial services box to click
-     */
-    async clickFinancialServicesBox(index: number) {
-      await this.page.getByRole('link', { name: 'Learn more' }).nth(index).click()
-    }
-
-  async clickProductsMenu() {
-    await this.page.locator('#menu-walker').getByRole('button', { name: 'Products' }).click();
+  constructor(page: Page) {
+    this.page = page;
+    this.productsMenu = page.locator('#menu-walker').getByRole('button', { name: 'Products' });
+    this.financeAndEsgButton = page.locator('.menu-section-item').getByRole('button').filter({ hasText: /^Finance & ESG$/ });
+    this.financialServicesBoxes = page.getByRole('link', { name: 'Learn more' });
+    this.headingInCardsBlock = page.locator('.cards-block').getByRole('heading', { level: 2 });
   }
 
-  async clickFinanceAndEsg() {
-    await this.page.locator('.menu-section-item').getByRole('button').filter({ hasText: /^Finance & ESG$/ }).click();
+  async getHeaderText() {
+    return this.headingInCardsBlock.innerText();
   }
 
-/**
- * 
- * @param linkText - text of the link to click
- */
+  async clickFinancialServicesBox(index: number) {
+    await this.financialServicesBoxes.nth(index).click();
+  }
+
+  async openProductsMenu() {
+    await this.productsMenu.click();
+  }
+
+  async selectFinanceAndEsg() {
+    await this.financeAndEsgButton.click();
+  }
+
   async clickLinkByText(linkText: string) {
     await this.page.getByRole('link', { name: linkText }).click();
+  }
+
+  async navigateToEsgKpiEngine() {
+    await this.openProductsMenu();
+    await this.selectFinanceAndEsg();
+    await this.clickLinkByText('ESG KPI Engine');
   }
 }

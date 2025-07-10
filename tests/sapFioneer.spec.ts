@@ -16,7 +16,7 @@ const bankingPage = new BankingPage(page)
 const insurancePage = new InsurancePage(page)
 const homeFinanceAndEsgPage = new HomeFinanceAndEsgPage(page)
 
-const headerText = await e2eSolutionPage.headerText()
+const headerText = await e2eSolutionPage.getHeaderText()
 expect(headerText).toEqual('End-to-end solutions for financial services')
 await e2eSolutionPage.clickFinancialServicesBox(0)
 
@@ -41,13 +41,20 @@ expect(breadcrumbHomefinanceAndEsgText).toContain('HomeFinance and ESG')
 
 test('check redirection', async ({page}) => {
   const e2eSolutionPage = new E2eSolutionPage(page);
+  const esgKpiPage = new HomeFinanceAndEsgPage(page);
 
-  await e2eSolutionPage.clickProductsMenu();
-  await e2eSolutionPage.clickFinanceAndEsg();
-  await e2eSolutionPage.clickLinkByText('ESG KPI Engine');
+  await e2eSolutionPage.navigateToEsgKpiEngine();
 
-  expect(page.url()).toContain('/finance-esg/esg-kpi-engine/');
-  expect(page.getByRole('heading', { name: 'Master ESG KPI management' })).toBeVisible();
+  await esgKpiPage.verifyUserIsOnEsgKpiEnginePage();
+
+  // const e2eSolutionPage = new E2eSolutionPage(page);
+
+  // await e2eSolutionPage.clickProductsMenu();
+  // await e2eSolutionPage.clickFinanceAndEsg();
+  // await e2eSolutionPage.clickLinkByText('ESG KPI Engine');
+
+  // expect(page.url()).toContain('/finance-esg/esg-kpi-engine/');
+  // expect(page.getByRole('heading', { name: 'Master ESG KPI management' })).toBeVisible();
 })
 
 test('email verification', async ({page}) => {
