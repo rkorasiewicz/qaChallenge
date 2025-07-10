@@ -12,10 +12,6 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-  use: {
-    // Base URL to use in actions like `await page.goto('/')`.
-    baseURL: 'https://www.sapfioneer.com',
-  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -34,6 +30,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    baseURL: 'https://www.sapfioneer.com'
   },
 
   /* Configure projects for major browsers */
